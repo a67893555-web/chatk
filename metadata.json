@@ -1,0 +1,6 @@
+{
+  "name": "PulseWire",
+  "description": "High-concurrency real-time messaging platform and distributed systems architecture suite with WebSocket gateways, idempotent delivery, and multi-device cursor sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

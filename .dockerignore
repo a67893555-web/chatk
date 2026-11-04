@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-server
+build
+coverage
+.git
+.gitignore
+.vercel
+.playwright-cli
+.aistudio
+.env
+.env.*
+!.env.example
+*.log
+*.test.ts
+README.md

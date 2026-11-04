@@ -1,0 +1,32 @@
+# Render Infrastructure-as-Code Blueprint (Split Backend + Managed Redis)
+services:
+  # 1. Node.js REST API & RFC 6455 WebSocket Gateway Service
+  - type: web
+    name: pulsewire-gateway
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: starter
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_STATIC_SPA
+        value: "false"
+      - key: PULSEWIRE_JWT_SECRET
+        generateValue: true
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false # Set in Render Dashboard, e.g. https://pulsewire-chat.vercel.app,https://*.vercel.app
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: pulsewire-redis
+          property: connectionString
+
+  # 2. Managed Render Key Value (Redis-Compatible) for Presence TTLs & Gateway Pub/Sub
+  - type: keyvalue
+    name: pulsewire-redis
+    region: frankfurt
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: [] # Restrict access strictly to internal Render private network
